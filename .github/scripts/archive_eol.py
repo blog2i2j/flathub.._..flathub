@@ -86,6 +86,9 @@ def main() -> None:
         "org.freedesktop.LinuxAudio.Plugins.Sorcer",
         "org.freedesktop.LinuxAudio.Plugins.ADLplug",
         "org.freedesktop.LinuxAudio.Plugins.Fabla",
+        "org.freedesktop.LinuxAudio.Plugins.Geonkick",
+        "org.freedesktop.LinuxAudio.Plugins.Helm",
+        "org.freedesktop.LinuxAudio.Plugins.Dexed",
         # 1.6 branch is EOL
         "org.freedesktop.Sdk.Extension.golang",
         # 19.08, 20.08, 21.08 are EOL
@@ -120,19 +123,24 @@ def main() -> None:
         "org.videolan.VLC.Plugin.bdj",
         # 3-1.6, 3-18.08 is EOL
         "org.videolan.VLC.Plugin.fdkaac",
+        "org.kde.PlatformTheme.QGnomePlatform",
+        "com.github.wwmm.easyeffects",
+        "com.yubico.yubioath",
+        "com.icanblink.blink",
+        "com.github.wwmm.pulseeffects",
     }
 
     stable = get_eol_refs("x86_64", "flathub") | get_eol_refs("aarch64", "flathub")
     beta = get_eol_refs("x86_64", "flathub-beta") | get_eol_refs(
         "aarch64", "flathub-beta"
     )
-    eols = list((stable | beta) - excludes)
+    eols = list({x.lower() for x in (stable | beta)} - {x.lower() for x in excludes})
 
     if not eols:
         return
 
     earliest = datetime.datetime.now(datetime.timezone.utc) - datetime.timedelta(
-        weeks=60
+        weeks=13
     )
     count = 0
     while count < len(eols):
